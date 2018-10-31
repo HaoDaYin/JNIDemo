@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getUser = findViewById(R.id.getUser);
-        // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
         User user = setUserName("DAIN");
@@ -45,9 +44,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                User user = getUser();
+                User user = getUserClassForFindClass();
                 Log.i("TAG", "onClick: " + user.getName());
 
+                ArrayList<User> list = new ArrayList<>();
+                for (int i = 0; i < 20; i++)
+                {
+                    User bean = new User();
+                    bean.setName("dain" + i);
+                    list.add(bean);
+                }
+
+                setArrayList(list);
             }
         });
     }
@@ -58,8 +66,10 @@ public class MainActivity extends AppCompatActivity
      */
     public native String stringFromJNI();
 
-    public native User getUser();
-    public native User getUserClassName(User user);
+    public native User getUserClassForFindClass();
+    public native User getUserClassForGetObjectClass(User user);
 
     public native User setUserName(String name);
+    public native ArrayList<User> getArrayList();
+    public native void setArrayList(ArrayList<User> user);
 }
